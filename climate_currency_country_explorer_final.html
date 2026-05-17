@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climate or Currency — Turkey Tourism Explorer</title>
+<style>
+:root {
+  --bg:#07111f; --bg2:#0e1a2e; --card:#101e33; --card2:#132640; --ink:#f8fafc; --muted:#a9b7cc; --soft:#dbeafe;
+  --line:rgba(166,194,230,.18); --cyan:#67e8f9; --amber:#fbbf24; --mint:#a7f3d0; --rose:#fda4af; --violet:#c4b5fd;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; background:
+  radial-gradient(circle at 8% 5%, rgba(103,232,249,.22), transparent 32%),
+  radial-gradient(circle at 88% 0%, rgba(251,191,36,.16), transparent 28%),
+  linear-gradient(135deg,var(--bg),#0b1020 70%); color:var(--ink); }
+body:before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.22; background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px); background-size:44px 44px; mask-image:linear-gradient(to bottom,black,transparent 78%); }
+.container { width:min(1220px,92vw); margin:auto; position:relative; }
+.hero { padding:72px 0 40px; display:grid; grid-template-columns:1.05fr .95fr; gap:34px; align-items:center; }
+.kicker { color:var(--cyan); letter-spacing:.2em; text-transform:uppercase; font-size:.78rem; font-weight:800; }
+h1 { font-size:clamp(2.7rem,6vw,5.8rem); line-height:.92; margin:.75rem 0 1rem; max-width:980px; letter-spacing:-.06em; }
+h1 span { color:var(--cyan); }
+h2 { font-size:clamp(1.65rem,3vw,2.45rem); margin:.15rem 0 1rem; letter-spacing:-.03em; }
+h3 { font-size:1.05rem; margin:0 0 .75rem; }
+.lead { color:var(--muted); max-width:850px; font-size:1.12rem; line-height:1.75; }
+.heroPanel { background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035)); border:1px solid var(--line); border-radius:32px; padding:24px; box-shadow:0 28px 90px rgba(0,0,0,.32); }
+.flow { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:16px; }
+.flowItem { border:1px solid var(--line); border-radius:22px; padding:16px; background:rgba(255,255,255,.045); min-height:116px; }
+.flowItem b { display:block; font-size:1.35rem; margin-bottom:8px; color:white; }
+.flowItem p { margin:0; color:var(--muted); line-height:1.45; font-size:.92rem; }
+.grid { display:grid; gap:18px; }
+.cards { grid-template-columns:repeat(4,minmax(0,1fr)); margin:30px 0 4px; }
+.card { background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035)); border:1px solid var(--line); border-radius:26px; padding:20px; box-shadow:0 20px 60px rgba(0,0,0,.22); }
+.card .label { color:var(--muted); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; font-weight:800; }
+.card .value { font-size:2.05rem; font-weight:900; margin:.35rem 0; color:white; letter-spacing:-.04em; }
+.card .note { color:var(--muted); line-height:1.5; font-size:.92rem; }
+.section { padding:32px 0; }
+.sectionHead { display:flex; justify-content:space-between; gap:18px; align-items:end; margin-bottom:16px; }
+.explain { color:var(--muted); line-height:1.7; max-width:78ch; }
+.countryStage { display:grid; grid-template-columns:340px 1fr; gap:18px; align-items:start; }
+.selector { position:sticky; top:18px; }
+.searchBox { width:100%; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--ink); border-radius:18px; padding:13px 15px; outline:none; margin:8px 0 14px; }
+.countryList { display:grid; gap:10px; max-height:630px; overflow:auto; padding-right:4px; }
+button.country { text-align:left; border:1px solid var(--line); color:var(--ink); background:rgba(255,255,255,.045); border-radius:22px; padding:13px; cursor:pointer; transition:.18s; display:flex; gap:12px; align-items:center; }
+button.country:hover, button.country.active { background:linear-gradient(135deg,rgba(103,232,249,.28),rgba(251,191,36,.12)); border-color:rgba(103,232,249,.7); transform:translateY(-1px); }
+.flag { width:44px; height:44px; border-radius:16px; display:grid; place-items:center; font-weight:900; background:rgba(103,232,249,.12); color:var(--cyan); border:1px solid var(--line); flex:0 0 auto; }
+.countryMeta b { display:block; font-size:1rem; }
+.countryMeta span { display:block; color:var(--muted); font-size:.82rem; margin-top:2px; }
+.dashboard { display:grid; gap:18px; }
+.heroCountry { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:stretch; }
+.badge { display:inline-flex; padding:7px 11px; border:1px solid var(--line); border-radius:999px; color:var(--mint); background:rgba(167,243,208,.08); font-weight:900; font-size:.8rem; margin-bottom:8px; }
+.bigCountry { font-size:clamp(2.2rem,5vw,4.4rem); margin:.1rem 0 .4rem; line-height:.95; letter-spacing:-.05em; }
+.statgrid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.rankPills { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; }
+.pill { border:1px solid var(--line); border-radius:999px; padding:9px 12px; color:var(--soft); background:rgba(255,255,255,.045); font-weight:750; font-size:.86rem; }
+.pill strong { color:var(--cyan); }
+.chart { display:flex; align-items:flex-end; gap:7px; height:280px; padding-top:18px; border-bottom:1px solid var(--line); }
+.barwrap { flex:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; min-width:0; }
+.bar { width:100%; border-radius:12px 12px 0 0; background:linear-gradient(180deg,var(--cyan),#2563eb); min-height:3px; position:relative; transition:.2s; }
+.bar.year { background:linear-gradient(180deg,var(--amber),#f97316); }
+.bar:hover { filter:brightness(1.25); transform:scaleY(1.015); }
+.barlabel { color:var(--muted); font-size:.7rem; transform:rotate(-45deg); transform-origin:top center; height:30px; white-space:nowrap; }
+.tooltip { font-size:.7rem; color:var(--muted); text-align:center; min-height:32px; }
+.two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.rankline { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); color:var(--muted); }
+.rankline b { color:var(--ink); text-align:right; }
+.verdict { padding:5px 9px; border-radius:999px; background:rgba(103,232,249,.1); color:var(--cyan); border:1px solid rgba(103,232,249,.25); }
+.compareGrid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.compareCard { border:1px solid var(--line); background:rgba(255,255,255,.04); border-radius:20px; padding:14px; cursor:pointer; transition:.18s; }
+.compareCard:hover { border-color:var(--cyan); transform:translateY(-2px); }
+.compareCard b { display:block; font-size:1rem; margin-bottom:6px; }
+.compareCard span { color:var(--muted); font-size:.82rem; }
+.footer { color:var(--muted); padding:42px 0 72px; line-height:1.6; }
+code { color:var(--mint); background:rgba(167,243,208,.08); border:1px solid rgba(167,243,208,.18); border-radius:8px; padding:2px 6px; }
+@media (max-width:980px) { .hero,.countryStage,.heroCountry,.cards,.statgrid,.two,.three,.compareGrid { grid-template-columns:1fr; } .selector { position:relative; top:auto; } h1{font-size:3.2rem} }
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <div>
+      <div class="kicker">DSA210 Term Project · Turkey Tourism · 2015–2025</div>
+      <h1>Climate or <span>Currency?</span></h1>
+      <p class="lead">This project investigates why foreign tourists come to Turkey by comparing two explanations: climate and seasonality versus economic affordability. The analysis combines monthly arrivals, Istanbul and source-country temperatures, inflation, and exchange-rate data. The page below turns the report into an interactive country explorer: choose a source country and the results update instantly.</p>
+      <p class="lead">The key takeaway is not that economics is irrelevant. It is that the strongest single signal in monthly arrivals is climate/seasonality, while exchange rates and inflation add a second layer of economic explanation.</p>
+      <div class="grid cards">
+        <div class="card"><div class="label">Central comparison</div><div class="value">≈4×</div><div class="note">Istanbul temperature explains more variance than Turkey CPI in aggregate monthly arrivals.</div></div>
+        <div class="card"><div class="label">Climate R²</div><div class="value">0.39</div><div class="note">Approximate explanatory power of Istanbul temperature after excluding COVID years.</div></div>
+        <div class="card"><div class="label">Classification</div><div class="value">93%</div><div class="note">High-season vs low-season months are highly learnable from the feature set.</div></div>
+        <div class="card"><div class="label">Countries</div><div class="value">10</div><div class="note">Top source markets can be explored individually below.</div></div>
+      </div>
+    </div>
+    <div class="heroPanel">
+      <div class="kicker">How to read this dashboard</div>
+      <h2>From report results to country stories</h2>
+      <div class="flow">
+        <div class="flowItem"><b>1</b><p>Pick a source country from the redesigned country selector.</p></div>
+        <div class="flowItem"><b>2</b><p>See its strongest year, total-arrival rank, and peak months.</p></div>
+        <div class="flowItem"><b>3</b><p>Read the H3 and H4 country-level tests with explanations of exactly what each hypothesis measures.</p></div>
+        <div class="flowItem"><b>4</b><p>Use the EDA and ML interpretation cards to connect the country to the project conclusion.</p></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Hypothesis map</div>
+        <h2>H1–H7: formal labels, readable meanings</h2>
+        <p class="explain">The project uses formal hypothesis codes because they make the report, notebooks, figures, and dashboard easy to cross-reference. Each code also has a plain-language meaning: what is being measured, which variables are compared, and what kind of result would support the hypothesis.</p>
+      </div>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>H1 — Istanbul temperature and total arrivals</h3><p class="explain">Measures whether warmer Istanbul months coincide with higher total foreign arrivals. It captures the main climate/seasonality signal, including the summer holiday calendar.</p></div>
+      <div class="card"><h3>H2 — Turkey price competitiveness and arrivals</h3><p class="explain">Measures whether Turkey CPI, used as an affordability signal linked to Lira weakness, is associated with higher total arrivals.</p></div>
+      <div class="card"><h3>H3 — Source-country inflation and arrivals</h3><p class="explain">Measures whether inflation in a tourist's home country is related to arrivals from that same country. The direction can differ by country.</p></div>
+      <div class="card"><h3>H4 — Temperature gap and escape-the-cold</h3><p class="explain">Measures whether visitors arrive when Istanbul is warmer than home. Negative temperature-gap correlations support escape-the-cold behavior.</p></div>
+      <div class="card"><h3>H5 — Climate versus economics</h3><p class="explain">Compares how much variation is explained by Istanbul temperature versus Turkey CPI. This is the central project comparison.</p></div>
+      <div class="card"><h3>H6–H7 — Timing and validation</h3><p class="explain">H6 checks whether economic signals appear after a 1–6 month planning lag. H7 checks whether COVID-19 created a structural break in 2020–2021.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="explorer">
+    <div class="sectionHead">
+      <div>
+        <div class="kicker">Interactive country explorer</div>
+        <h2>Choose a country, then read its tourism signature</h2>
+        <p class="explain">The selector is based on the report's top source-country list. Each card shows rank and peak timing before you click. After selection, the dashboard connects the country to the formal H1–H7 hypothesis structure while still explaining what each test actually measures.</p>
+      </div>
+    </div>
+    <div class="countryStage">
+      <aside class="card selector">
+        <h3>Source-country list</h3>
+        <input id="search" class="searchBox" placeholder="Search country..." />
+        <div id="buttons" class="countryList"></div>
+      </aside>
+      <main class="dashboard">
+        <div class="heroCountry">
+          <div class="card">
+            <span id="badge" class="badge"></span>
+            <div id="countryTitle" class="bigCountry"></div>
+            <p id="countrySummary" class="explain"></p>
+            <div class="rankPills" id="rankPills"></div>
+          </div>
+          <div class="grid statgrid">
+            <div class="card"><div class="label">Total-arrival rank</div><div id="rankTotal" class="value"></div><div class="note">Among selected report countries.</div></div>
+            <div class="card"><div class="label">Highest year</div><div id="bestYear" class="value"></div><div id="bestYearNote" class="note"></div></div>
+            <div class="card"><div class="label">Peak months</div><div id="peakMonths" class="value" style="font-size:1.35rem"></div><div class="note">Top three months by cumulative arrivals.</div></div>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="card"><h2>Monthly arrival pattern</h2><p class="explain">Which months bring the selected country's tourists?</p><div id="monthlyChart" class="chart"></div></div>
+          <div class="card"><h2>Yearly trend</h2><p class="explain">Which year was strongest, and how does the decade look?</p><div id="yearChart" class="chart"></div></div>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <h2>Country-level hypotheses</h2>
+            <p class="explain"><b>H3</b> measures whether inflation in the selected tourist's home country is associated with arrivals from that same country. <b>H4</b> measures whether arrivals rise when Istanbul is warmer than the source country, which would support an escape-the-cold story.</p>
+            <div class="rankline"><span><b>H4 — Temperature gap / escape-the-cold result</b></span><b id="h4" class="verdict"></b></div>
+            <div class="rankline"><span>What H4 measures: source-country temperature minus Istanbul temperature vs arrivals</span><b id="rgap"></b></div>
+            <div class="rankline"><span><b>H3 — Source-country inflation result</b></span><b id="h3" class="verdict"></b></div>
+            <div class="rankline"><span>What H3 measures: home-country inflation vs arrivals from that country</span><b id="rinf"></b></div>
+          </div>
+          <div class="card">
+            <h2>EDA + ML interpretation</h2>
+            <p id="interpretation" class="explain"></p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="kicker">Quick comparison</div>
+    <h2>Country cards at a glance</h2>
+    <p class="explain">These mini cards are another way to navigate the project. Click a card to jump back to that country's full dashboard.</p>
+    <div id="compare" class="compareGrid"></div>
+  </section>
+
+
+  <section class="section">
+    <div class="kicker">Dashboard data files</div>
+    <h2>Where the country-profile inputs are stored</h2>
+    <p class="explain">The interactive country explorer is designed to open directly on GitHub Pages, so the country-profile values are embedded inside this HTML file. The exported CSV and JSON versions are stored in the repository under the processed data folder:</p>
+    <div class="grid two">
+      <div class="card"><h3>Country profile summary table</h3><p class="explain"><code>datasets/processed_data/country_profiles_summary_final.csv</code></p></div>
+      <div class="card"><h3>Country profile dashboard data</h3><p class="explain"><code>datasets/processed_data/country_profiles_data_final.json</code></p></div>
+    </div>
+  </section>
+
+  <section class="footer">Standalone HTML/CSS/JavaScript dashboard for the DSA210 Turkey tourism project. The design intentionally avoids mosque/landmark imagery and uses a data-story interface instead.</section>
+</div>
+<script>
+const DATA = [{"country": "Germany", "total_arrivals": 63164124, "best_year": 2015, "best_year_arrivals": 10431357, "top_months": [{"month": 7, "name": "July", "arrivals": 10778320}, {"month": 8, "name": "August", "arrivals": 9683855}, {"month": 9, "name": "September", "arrivals": 7796905}], "monthly_series": [1492364, 1855550, 2842285, 4328862, 5781925, 6613713, 10778320, 9683855, 7796905, 6980939, 2573815, 2435591], "year_series": [{"year": 2015, "arrivals": 10431357}, {"year": 2016, "arrivals": 7289089}, {"year": 2017, "arrivals": 6461444}, {"year": 2018, "arrivals": 4512360}, {"year": 2019, "arrivals": 5027472}, {"year": 2020, "arrivals": 1118932}, {"year": 2021, "arrivals": 3085215}, {"year": 2022, "arrivals": 5679194}, {"year": 2023, "arrivals": 6193259}, {"year": 2024, "arrivals": 6620612}, {"year": 2025, "arrivals": 6745190}], "r_temp_gap": 0.055705268156124005, "p_temp_gap": 0.5687492091805282, "r_turkey_temp": 0.8509524122793471, "p_turkey_temp": 3.950788235757358e-31, "r_source_temp": 0.8406094289875629, "p_source_temp": 1.0088388897778901e-29, "r_inflation": 0.03530423548612815, "p_inflation": 2.268031320469179e-05, "season_share_jun_sep": 0.5520981023974939, "h4_verdict": "No clear country-level support", "h3_verdict": "Mixed / not significant", "rank_total": 1, "rank_seasonality": 6, "rank_escape_cold": 3, "rank_inflation_sensitivity": 7, "code": "DE"}, {"country": "Russia", "total_arrivals": 61924023, "best_year": 2017, "best_year_arrivals": 8379434, "top_months": [{"month": 9, "name": "September", "arrivals": 10271646}, {"month": 8, "name": "August", "arrivals": 10022443}, {"month": 7, "name": "July", "arrivals": 9400805}], "monthly_series": [1455004, 1259936, 1674432, 2849727, 6028614, 8310005, 9400805, 10022443, 10271646, 6767883, 2199787, 1683741], "year_series": [{"year": 2015, "arrivals": 7068881}, {"year": 2016, "arrivals": 1509793}, {"year": 2017, "arrivals": 8379434}, {"year": 2018, "arrivals": 5964613}, {"year": 2019, "arrivals": 7017657}, {"year": 2020, "arrivals": 2128758}, {"year": 2021, "arrivals": 4694422}, {"year": 2022, "arrivals": 5232611}, {"year": 2023, "arrivals": 6313675}, {"year": 2024, "arrivals": 6710198}, {"year": 2025, "arrivals": 6903981}], "r_temp_gap": 0.38072633701052916, "p_temp_gap": 0.06644241090296008, "r_turkey_temp": 0.6021982370836928, "p_turkey_temp": 0.0018475279458719032, "r_source_temp": 0.5809815901306971, "p_source_temp": 0.002910066132104342, "r_inflation": -0.11716216555914416, "p_inflation": 0.25816562818253297, "season_share_jun_sep": 0.6137343337657504, "h4_verdict": "No clear country-level support", "h3_verdict": "Mixed / not significant", "rank_total": 2, "rank_seasonality": 2, "rank_escape_cold": 7, "rank_inflation_sensitivity": 2, "code": "RU"}, {"country": "United Kingdom", "total_arrivals": 32882106, "best_year": 2015, "best_year_arrivals": 4768475, "top_months": [{"month": 8, "name": "August", "arrivals": 5470729}, {"month": 7, "name": "July", "arrivals": 5237175}, {"month": 9, "name": "September", "arrivals": 4716603}], "monthly_series": [518997, 703361, 1015005, 2256175, 3794420, 4345432, 5237175, 5470729, 4716603, 3180182, 918187, 725840], "year_series": [{"year": 2015, "arrivals": 4768475}, {"year": 2016, "arrivals": 3256863}, {"year": 2017, "arrivals": 2950899}, {"year": 2018, "arrivals": 2254871}, {"year": 2019, "arrivals": 2562064}, {"year": 2020, "arrivals": 820709}, {"year": 2021, "arrivals": 392746}, {"year": 2022, "arrivals": 3370739}, {"year": 2023, "arrivals": 3800922}, {"year": 2024, "arrivals": 4433782}, {"year": 2025, "arrivals": 4270036}], "r_temp_gap": -0.7230726526570754, "p_temp_gap": 6.556930304318872e-05, "r_turkey_temp": 0.9028403233889167, "p_turkey_temp": 1.5919785328177386e-09, "r_source_temp": 0.8576252377121261, "p_source_temp": 8.560549494247363e-08, "r_inflation": -0.021608459513674672, "p_inflation": 0.18294164626300727, "season_share_jun_sep": 0.601237007143034, "h4_verdict": "Escape-the-cold signal", "h3_verdict": "Mixed / not significant", "rank_total": 3, "rank_seasonality": 4, "rank_escape_cold": 1, "rank_inflation_sensitivity": 9, "code": "UK"}, {"country": "Bulgaria", "total_arrivals": 29327134, "best_year": 2015, "best_year_arrivals": 3477796, "top_months": [{"month": 9, "name": "September", "arrivals": 3541195}, {"month": 8, "name": "August", "arrivals": 2738578}, {"month": 12, "name": "December", "arrivals": 2672453}], "monthly_series": [1602781, 1688929, 2035460, 2487922, 2427156, 2528140, 2586544, 2738578, 3541195, 2545766, 2472210, 2672453], "year_series": [{"year": 2015, "arrivals": 3477796}, {"year": 2016, "arrivals": 3234530}, {"year": 2017, "arrivals": 3366161}, {"year": 2018, "arrivals": 2386885}, {"year": 2019, "arrivals": 2713464}, {"year": 2020, "arrivals": 1242961}, {"year": 2021, "arrivals": 1402795}, {"year": 2022, "arrivals": 2882512}, {"year": 2023, "arrivals": 2893092}, {"year": 2024, "arrivals": 2918581}, {"year": 2025, "arrivals": 2808357}], "r_temp_gap": 0.32070775434833987, "p_temp_gap": 0.0007574758218621148, "r_turkey_temp": 0.5158213041686216, "p_turkey_temp": 1.3003686918904958e-08, "r_source_temp": 0.5193985185717432, "p_source_temp": 9.906404449943168e-09, "r_inflation": 0.09851796024312652, "p_inflation": 4.007433433547591e-30, "season_share_jun_sep": 0.38852950990710516, "h4_verdict": "Summer-season pattern", "h3_verdict": "Mixed / not significant", "rank_total": 4, "rank_seasonality": 10, "rank_escape_cold": 5, "rank_inflation_sensitivity": 3, "code": "BG"}, {"country": "Iran", "total_arrivals": 27902582, "best_year": 2017, "best_year_arrivals": 4622096, "top_months": [{"month": 9, "name": "September", "arrivals": 3341977}, {"month": 3, "name": "March", "arrivals": 3324757}, {"month": 8, "name": "August", "arrivals": 3036916}], "monthly_series": [1629552, 1854326, 3324757, 1601661, 1797446, 2411107, 2762793, 3036916, 3341977, 1921450, 2120629, 2099968], "year_series": [{"year": 2015, "arrivals": 3279850}, {"year": 2016, "arrivals": 3193531}, {"year": 2017, "arrivals": 4622096}, {"year": 2018, "arrivals": 2001744}, {"year": 2019, "arrivals": 2102890}, {"year": 2020, "arrivals": 385762}, {"year": 2021, "arrivals": 1153092}, {"year": 2022, "arrivals": 2331076}, {"year": 2023, "arrivals": 2504494}, {"year": 2024, "arrivals": 3277852}, {"year": 2025, "arrivals": 3050195}], "r_temp_gap": 0.40524683471873363, "p_temp_gap": 1.4914687881305156e-05, "r_turkey_temp": 0.38471519131878323, "p_turkey_temp": 4.287656204731037e-05, "r_source_temp": 0.42650407487532305, "p_source_temp": 4.633312386348277e-06, "r_inflation": 0.25227452913413523, "p_inflation": 0.01364987217217399, "season_share_jun_sep": 0.4140402848739948, "h4_verdict": "Summer-season pattern", "h3_verdict": "Supported, positive", "rank_total": 5, "rank_seasonality": 8, "rank_escape_cold": 8, "rank_inflation_sensitivity": 1, "code": "IR"}, {"country": "Georgia", "total_arrivals": 23032016, "best_year": 2017, "best_year_arrivals": 4429231, "top_months": [{"month": 9, "name": "September", "arrivals": 2450460}, {"month": 8, "name": "August", "arrivals": 2440690}, {"month": 7, "name": "July", "arrivals": 2384765}], "monthly_series": [1474837, 1556180, 1741030, 1780075, 2036797, 2004264, 2384765, 2440690, 2450460, 1441384, 1858591, 1862943], "year_series": [{"year": 2015, "arrivals": 3658778}, {"year": 2016, "arrivals": 4234146}, {"year": 2017, "arrivals": 4429231}, {"year": 2018, "arrivals": 2069392}, {"year": 2019, "arrivals": 1995254}, {"year": 2020, "arrivals": 410501}, {"year": 2021, "arrivals": 291852}, {"year": 2022, "arrivals": 1514813}, {"year": 2023, "arrivals": 1633977}, {"year": 2024, "arrivals": 1466188}, {"year": 2025, "arrivals": 1327884}], "r_temp_gap": 0.3617743326881169, "p_temp_gap": 0.0001287696674077531, "r_turkey_temp": 0.568691734078919, "p_turkey_temp": 1.6572909156149633e-10, "r_source_temp": 0.5662109305138809, "p_source_temp": 2.0695622197472426e-10, "r_inflation": -0.09092246016493719, "p_inflation": 0.38087366469166123, "season_share_jun_sep": 0.4029251716393389, "h4_verdict": "Summer-season pattern", "h3_verdict": "Mixed / not significant", "rank_total": 6, "rank_seasonality": 9, "rank_escape_cold": 6, "rank_inflation_sensitivity": 4, "code": "GE"}, {"country": "Netherlands", "total_arrivals": 13634646, "best_year": 2015, "best_year_arrivals": 2346990, "top_months": [{"month": 7, "name": "July", "arrivals": 3091593}, {"month": 8, "name": "August", "arrivals": 2114211}, {"month": 5, "name": "May", "arrivals": 1380773}], "monthly_series": [358203, 465288, 422876, 1348957, 1380773, 1096456, 3091593, 2114211, 1290580, 1139769, 431688, 494252], "year_series": [{"year": 2015, "arrivals": 2346990}, {"year": 2016, "arrivals": 1734029}, {"year": 2017, "arrivals": 1449753}, {"year": 2018, "arrivals": 1013642}, {"year": 2019, "arrivals": 1117290}, {"year": 2020, "arrivals": 271526}, {"year": 2021, "arrivals": 645601}, {"year": 2022, "arrivals": 1244756}, {"year": 2023, "arrivals": 1232220}, {"year": 2024, "arrivals": 1303262}, {"year": 2025, "arrivals": 1275577}], "r_temp_gap": -0.483021260128055, "p_temp_gap": 1.3691163057025377e-07, "r_turkey_temp": 0.7922242289196217, "p_turkey_temp": 2.923596030142402e-24, "r_source_temp": 0.8003738716444051, "p_source_temp": 4.494944171379112e-25, "r_inflation": 0.030458287654036055, "p_inflation": 0.0005308445921456096, "season_share_jun_sep": 0.5568784110713252, "h4_verdict": "Escape-the-cold signal", "h3_verdict": "Mixed / not significant", "rank_total": 7, "rank_seasonality": 5, "rank_escape_cold": 2, "rank_inflation_sensitivity": 8, "code": "NL"}, {"country": "Iraq", "total_arrivals": 12583758, "best_year": 2015, "best_year_arrivals": 2085013, "top_months": [{"month": 8, "name": "August", "arrivals": 1804772}, {"month": 7, "name": "July", "arrivals": 1660187}, {"month": 9, "name": "September", "arrivals": 1554183}], "monthly_series": [723808, 820579, 732531, 686133, 760074, 1131878, 1660187, 1804772, 1554183, 890075, 904232, 915306], "year_series": [{"year": 2015, "arrivals": 2085013}, {"year": 2016, "arrivals": 795026}, {"year": 2017, "arrivals": 1671009}, {"year": 2018, "arrivals": 1172896}, {"year": 2019, "arrivals": 1374896}, {"year": 2020, "arrivals": 387587}, {"year": 2021, "arrivals": 836624}, {"year": 2022, "arrivals": 1208895}, {"year": 2023, "arrivals": 1051721}, {"year": 2024, "arrivals": 968834}, {"year": 2025, "arrivals": 1031257}], "r_temp_gap": NaN, "p_temp_gap": NaN, "r_turkey_temp": NaN, "p_turkey_temp": NaN, "r_source_temp": NaN, "p_source_temp": NaN, "r_inflation": 0.07423513717002027, "p_inflation": 0.47463166324133615, "season_share_jun_sep": 0.488806285054115, "h4_verdict": "No clear country-level support", "h3_verdict": "Mixed / not significant", "rank_total": 8, "rank_seasonality": 7, "rank_escape_cold": 99, "rank_inflation_sensitivity": 6, "code": "IQ"}, {"country": "Poland", "total_arrivals": 10629310, "best_year": 2025, "best_year_arrivals": 1914958, "top_months": [{"month": 8, "name": "August", "arrivals": 1941423}, {"month": 7, "name": "July", "arrivals": 1940606}, {"month": 9, "name": "September", "arrivals": 1741033}], "monthly_series": [136753, 147964, 164345, 486490, 1114410, 1668167, 1940606, 1941423, 1741033, 908500, 233194, 146425], "year_series": [{"year": 2015, "arrivals": 980418}, {"year": 2016, "arrivals": 395816}, {"year": 2017, "arrivals": 537918}, {"year": 2018, "arrivals": 646365}, {"year": 2019, "arrivals": 880839}, {"year": 2020, "arrivals": 145908}, {"year": 2021, "arrivals": 585076}, {"year": 2022, "arrivals": 1135903}, {"year": 2023, "arrivals": 1539123}, {"year": 2024, "arrivals": 1866986}, {"year": 2025, "arrivals": 1914958}], "r_temp_gap": 0.24719749280654174, "p_temp_gap": 0.010259268418753922, "r_turkey_temp": 0.7075380278918444, "p_turkey_temp": 1.6021015090766538e-17, "r_source_temp": 0.7067681574475486, "p_source_temp": 1.798060214846488e-17, "r_inflation": 0.011060885958756395, "p_inflation": 0.18593286223328934, "season_share_jun_sep": 0.685955061993676, "h4_verdict": "Summer-season pattern", "h3_verdict": "Mixed / not significant", "rank_total": 9, "rank_seasonality": 1, "rank_escape_cold": 4, "rank_inflation_sensitivity": 10, "code": "PL"}, {"country": "Saudi Arabia", "total_arrivals": 6657907, "best_year": 2017, "best_year_arrivals": 1227215, "top_months": [{"month": 7, "name": "July", "arrivals": 1485159}, {"month": 8, "name": "August", "arrivals": 1237537}, {"month": 6, "name": "June", "arrivals": 694062}], "monthly_series": [343440, 216898, 286828, 377390, 387678, 694062, 1485159, 1237537, 596819, 284423, 428330, 319343], "year_series": [{"year": 2015, "arrivals": 428192}, {"year": 2016, "arrivals": 503102}, {"year": 2017, "arrivals": 1227215}, {"year": 2018, "arrivals": 747233}, {"year": 2019, "arrivals": 564816}, {"year": 2020, "arrivals": 67490}, {"year": 2021, "arrivals": 10083}, {"year": 2022, "arrivals": 497914}, {"year": 2023, "arrivals": 820683}, {"year": 2024, "arrivals": 869453}, {"year": 2025, "arrivals": 921726}], "r_temp_gap": NaN, "p_temp_gap": NaN, "r_turkey_temp": NaN, "p_turkey_temp": NaN, "r_source_temp": NaN, "p_source_temp": NaN, "r_inflation": 0.07595346687297128, "p_inflation": 0.5289918236174695, "season_share_jun_sep": 0.6028286366871751, "h4_verdict": "No clear country-level support", "h3_verdict": "Mixed / not significant", "rank_total": 10, "rank_seasonality": 3, "rank_escape_cold": 99, "rank_inflation_sensitivity": 5, "code": "SA"}];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmt(n) { return (n===null||n===undefined) ? 'n/a' : Number(n).toLocaleString('en-US'); }
+function f2(n) { return (n===null||n===undefined||Number.isNaN(n)) ? 'n/a' : (n>=0?'+':'') + Number(n).toFixed(2); }
+function pct(n) { return (n===null||n===undefined) ? 'n/a' : Math.round(n*100)+'%'; }
+function makeBars(el, values, labels, kind) {
+  const max = Math.max(...values);
+  el.innerHTML='';
+  values.forEach((v,i)=>{
+    const wrap=document.createElement('div'); wrap.className='barwrap';
+    const tip=document.createElement('div'); tip.className='tooltip'; tip.textContent=fmt(v);
+    const bar=document.createElement('div'); bar.className='bar '+(kind||''); bar.style.height=Math.max(3,(v/max)*218)+'px';
+    bar.title=labels[i]+': '+fmt(v);
+    const lab=document.createElement('div'); lab.className='barlabel'; lab.textContent=labels[i];
+    wrap.appendChild(tip); wrap.appendChild(bar); wrap.appendChild(lab); el.appendChild(wrap);
+  });
+}
+function story(d) {
+  const m = d.top_months.map(x=>x.name).join(', ');
+  let climate = d.r_temp_gap !== null && d.r_temp_gap < -0.2 ? 'Its temperature-gap result leans toward an escape-the-cold reading.' : 'Its pattern mostly reinforces the summer-season interpretation.';
+  if (d.h4_verdict && d.h4_verdict.includes('No clear')) climate = 'Its temperature-gap result is not strong enough to support a clear country-level climate-gap story.';
+  return `${d.country} ranks #${d.rank_total} by total arrivals among the selected source countries. Its strongest year is ${d.best_year}, and its peak months are ${m}. ${climate}`;
+}
+function choose(country) {
+  const d=DATA.find(x=>x.country===country) || DATA[0];
+  document.querySelectorAll('button.country').forEach(b=>b.classList.toggle('active', b.dataset.country===d.country));
+  document.getElementById('badge').textContent='Selected country · '+d.code;
+  document.getElementById('countryTitle').textContent=d.country;
+  document.getElementById('countrySummary').textContent=story(d);
+  document.getElementById('rankPills').innerHTML=`<span class="pill"><strong>#${d.rank_total}</strong> total arrivals</span><span class="pill"><strong>#${d.rank_seasonality}</strong> seasonality</span><span class="pill"><strong>#${d.rank_escape_cold}</strong> escape-cold</span><span class="pill"><strong>#${d.rank_inflation_sensitivity}</strong> inflation sensitivity</span>`;
+  document.getElementById('rankTotal').textContent='#'+d.rank_total;
+  document.getElementById('bestYear').textContent=d.best_year;
+  document.getElementById('bestYearNote').textContent=fmt(d.best_year_arrivals)+' arrivals in that year.';
+  document.getElementById('peakMonths').textContent=d.top_months.map(x=>x.name.slice(0,3)).join(' · ');
+  makeBars(document.getElementById('monthlyChart'), d.monthly_series, MONTHS, '');
+  makeBars(document.getElementById('yearChart'), d.year_series.map(x=>x.arrivals), d.year_series.map(x=>String(x.year)), 'year');
+  document.getElementById('h4').textContent=d.h4_verdict;
+  document.getElementById('rgap').textContent=f2(d.r_temp_gap);
+  document.getElementById('h3').textContent=d.h3_verdict;
+  document.getElementById('rinf').textContent=f2(d.r_inflation);
+  let interp=`EDA: The monthly chart shows whether ${d.country} is concentrated in summer or distributed across shoulder/winter months. A high June–September share (${pct(d.season_share_jun_sep)}) supports the broader seasonality result. `;
+  interp += `H4 country-level test: the temperature-gap correlation checks whether visitors arrive when Istanbul is warmer than home; negative values suggest stronger escape-the-cold behavior, while positive values usually indicate a summer-holiday pattern. H3 country-level test: the source-inflation correlation checks whether prices rising at home are associated with more or fewer arrivals from that country. `;
+  interp += `ML connection: since the overall models rank temperature as the strongest single feature, countries with clear summer concentration reinforce the project's central climate/seasonality conclusion, while inflation-sensitive countries show where economics adds nuance.`;
+  document.getElementById('interpretation').textContent=interp;
+  location.hash='explorer';
+}
+function showNoResults(query) {
+  const included=DATA.map(d=>d.country).join(', ');
+  document.querySelectorAll('button.country').forEach(b=>b.classList.remove('active'));
+  document.getElementById('badge').textContent='Country not in sample';
+  document.getElementById('countryTitle').textContent='No country found';
+  document.getElementById('countrySummary').textContent=`"${query}" is not included in the current project sample. This dashboard focuses only on the top source countries used in the report: ${included}.`;
+  document.getElementById('rankPills').innerHTML='<span class="pill"><strong>Tip</strong> choose one of the listed countries</span>';
+  document.getElementById('rankTotal').textContent='—';
+  document.getElementById('bestYear').textContent='—';
+  document.getElementById('bestYearNote').textContent='No country-level result is available for this search.';
+  document.getElementById('peakMonths').textContent='—';
+  document.getElementById('monthlyChart').innerHTML='<p class="explain">No monthly chart is available because this country was not part of the analyzed top-source-country sample.</p>';
+  document.getElementById('yearChart').innerHTML='<p class="explain">No yearly trend is available for countries outside the project sample.</p>';
+  document.getElementById('h4').textContent='Not available';
+  document.getElementById('rgap').textContent='—';
+  document.getElementById('h3').textContent='Not available';
+  document.getElementById('rinf').textContent='—';
+  document.getElementById('interpretation').textContent='The project intentionally limits the interactive country explorer to the main source countries analyzed in the report. For countries outside this list, the dashboard does not calculate arrival ranks, peak months, hypothesis results, or machine-learning interpretation.';
+}
+function renderButtons(filter='') {
+  const buttons=document.getElementById('buttons'); buttons.innerHTML='';
+  const q=filter.trim();
+  const matches=DATA.filter(d=>d.country.toLowerCase().includes(q.toLowerCase()));
+  if (q && matches.length===0) {
+    const msg=document.createElement('div');
+    msg.className='card';
+    msg.style.padding='14px';
+    msg.innerHTML=`<b>No country found</b><p class="explain" style="margin:.45rem 0 0">This dashboard includes only the top source countries used in the report: ${DATA.map(d=>d.country).join(', ')}.</p>`;
+    buttons.appendChild(msg);
+    showNoResults(q);
+    return;
+  }
+  matches.forEach(d=>{
+    const b=document.createElement('button'); b.className='country'; b.dataset.country=d.country; b.onclick=()=>choose(d.country);
+    b.innerHTML=`<div class="countryMeta"><b>${d.country}</b></div>`;
+    buttons.appendChild(b);
+  });
+}
+function renderCompare() {
+  const el=document.getElementById('compare'); el.innerHTML='';
+  DATA.forEach(d=>{
+    const c=document.createElement('div'); c.className='compareCard'; c.onclick=()=>choose(d.country);
+    c.innerHTML=`<b>${d.code} · ${d.country}</b><span>#${d.rank_total} arrivals<br>Top month: ${d.top_months[0].name}<br>Best year: ${d.best_year}</span>`;
+    el.appendChild(c);
+  });
+}
+document.getElementById('search').addEventListener('input', e=>renderButtons(e.target.value));
+renderButtons(); renderCompare(); choose(DATA[0].country);
+</script>
+</body>
+</html>

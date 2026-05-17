@@ -55,13 +55,13 @@ button.country:hover, button.country.active { background:linear-gradient(135deg,
 .rankPills { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; }
 .pill { border:1px solid var(--line); border-radius:999px; padding:9px 12px; color:var(--soft); background:rgba(255,255,255,.045); font-weight:750; font-size:.86rem; }
 .pill strong { color:var(--cyan); }
-.chart { display:flex; align-items:flex-end; gap:7px; height:280px; padding-top:18px; border-bottom:1px solid var(--line); }
+.chart { display:flex; align-items:flex-end; gap:7px; height:280px; padding-top:44px; border-bottom:1px solid var(--line); }
 .barwrap { flex:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; min-width:0; }
 .bar { width:100%; border-radius:12px 12px 0 0; background:linear-gradient(180deg,var(--cyan),#2563eb); min-height:3px; position:relative; transition:.2s; }
 .bar.year { background:linear-gradient(180deg,var(--amber),#f97316); }
 .bar:hover { filter:brightness(1.25); transform:scaleY(1.015); }
 .barlabel { color:var(--muted); font-size:.7rem; transform:rotate(-45deg); transform-origin:top center; height:30px; white-space:nowrap; }
-.tooltip { font-size:.7rem; color:var(--muted); text-align:center; min-height:32px; opacity:0; transition:opacity .15s ease; pointer-events:none; }
+.tooltip { font-size:.65rem; color:var(--muted); text-align:center; height:30px; white-space:nowrap; transform:rotate(-45deg); transform-origin:bottom center; opacity:0; transition:opacity .15s ease; pointer-events:none; }
 .barwrap:hover .tooltip { opacity:1; }
 .two { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .three { grid-template-columns:repeat(3,minmax(0,1fr)); }

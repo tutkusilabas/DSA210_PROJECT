@@ -61,7 +61,8 @@ button.country:hover, button.country.active { background:linear-gradient(135deg,
 .bar.year { background:linear-gradient(180deg,var(--amber),#f97316); }
 .bar:hover { filter:brightness(1.25); transform:scaleY(1.015); }
 .barlabel { color:var(--muted); font-size:.7rem; transform:rotate(-45deg); transform-origin:top center; height:30px; white-space:nowrap; }
-.tooltip { font-size:.7rem; color:var(--muted); text-align:center; min-height:32px; }
+.tooltip { font-size:.7rem; color:var(--muted); text-align:center; min-height:32px; opacity:0; transition:opacity .15s ease; pointer-events:none; }
+.barwrap:hover .tooltip { opacity:1; }
 .two { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .three { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .rankline { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); color:var(--muted); }

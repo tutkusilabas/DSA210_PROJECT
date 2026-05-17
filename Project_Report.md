@@ -372,8 +372,15 @@ Future versions could improve the project by adding:
 
 ## 9. AI Usage Disclaimer
 
-AI tools were used to assist with writing and code debugging, following Sabancı University’s academic integrity policies
----
+In keeping with Sabancı University's academic integrity guidelines and DSA210 course policy, this section transparently documents how AI tools were used in the preparation of this project.
+
+**Tools consulted.** OpenAI's ChatGPT and Anthropic's Claude were used as supporting assistants throughout the project.
+
+**How AI assisted.**
+
+- **Coding support** — debugging `pandas` merge operations on the multi-source monthly panel, resolving Eurostat TSV parsing edge cases (gzip decompression, comma-separated metadata columns, missing-value flag stripping), troubleshooting Open-Meteo API request loops, and refining Streamlit layout and custom CSS for the dashboard.
+- **Writing support** — copy-editing report prose for clarity and tightening verbose passages without altering substantive content or argumentative structure. The voice, structure, and reasoning of every section were authored by the project author.
+- **Methodological consultation** — sanity-checking the choice of Steiger's Z-test for comparing the dependent correlations in H5, the choice of `temperature_2m_mean` over alternative ERA5 variables, and the rationale for excluding the 2020–2021 COVID years from contemporaneous correlation analyses.
 
 ## 10. References and Tools
 

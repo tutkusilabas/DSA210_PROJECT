@@ -220,7 +220,17 @@ The website is built as a static HTML/CSS/JavaScript page and can be opened dire
 
 ## 13. AI Usage Disclaimer
 
-AI tools were used for writing assistance, code debugging, wording refinement, and formatting support. The statistical analysis, interpretation of results, dataset construction, and final conclusions were checked manually by the project author.
+In keeping with Sabancı University's academic integrity guidelines and DSA210 course policy, this section documents how AI tools were used in the preparation of this project.
+
+**Tools consulted.** OpenAI's ChatGPT and Anthropic's Claude were used as supporting assistants throughout the project.
+
+**How AI assisted.**
+
+- **Coding support** — debugging `pandas` merge operations, resolving Eurostat TSV parsing edge cases, troubleshooting Open-Meteo API request loops, and refining Streamlit layout and custom CSS for the dashboard.
+- **Writing support** — copy-editing prose for clarity and tightening verbose passages, without altering substantive content or argumentative structure.
+- **Methodological consultation** — sanity-checking the choice of Steiger's Z-test for H5, the choice of `temperature_2m_mean` over alternative ERA5 variables, and the rationale for excluding 2020–2021 from contemporaneous correlation analyses.
+
+The project author takes full responsibility for the methodology, results, interpretations, and any remaining errors in this work.
 
 ---
 
